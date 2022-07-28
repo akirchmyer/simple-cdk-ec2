@@ -1,2 +1,7 @@
 # npm-base
-Base npm package with TypeScript, eslint, jest
+
+Base npm package template with the following:
+- TypeScript
+- Jest
+- Eslint
+- Registry publish script
