@@ -11,6 +11,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Run npm ci"
+          command: "npm ci"
+      - run:
           name: "Run build"
           command: "npm run build"
       - run:
@@ -21,6 +24,9 @@ jobs:
       - image: cimg/node:18.7.0
     steps:
       - checkout
+      - run:
+          name: "Run npm ci"
+          command: "npm ci"
       - run:
           name: "Run build"
           command: "npm run build"
