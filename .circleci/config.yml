@@ -31,7 +31,10 @@ jobs:
 workflows:
   build:
     jobs:
-      - tests
+      - tests:
+        filters:
+          tags:
+            only: /.*/
       - deploy_to_registry:
         filters:
           branches:
