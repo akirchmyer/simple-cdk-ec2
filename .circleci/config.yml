@@ -13,28 +13,26 @@ jobs:
       - run:
           name: "Run lints and unit tests"
           command: "npm test"
-  deploy-registry:
+  deploy_to_registry:
     docker:
       - image: cimg/base:stable
     steps:
       - checkout
       - run:
-          name: "Run lints and unit tests"
-          command: "npm test"
-            #name: "Set registry"
-            #command: "npm set registry $REGISTRY_URL"
-            #- run:
-            #name: "Set registry push token"
-            #command: "npm set //$REGISTRY_DOMAIN/:_authToken $PUSH_TOKEN"
-            #- run:
-            #name: "Publish to registry"
-            #command: "npm publish"
+          name: "Set registry"
+          command: "npm set registry $REGISTRY_URL"
+      - run:
+          name: "Set registry push token"
+          command: "npm set //$REGISTRY_DOMAIN/:_authToken $PUSH_TOKEN"
+      - run:
+          name: "Publish to registry"
+          command: "npm publish"
 
 workflows:
   build:
     jobs:
       - tests
-      - deploy-registry:
+      - deploy_to_registry:
         branches:
           only:
             - main
