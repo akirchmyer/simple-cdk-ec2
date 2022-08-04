@@ -45,7 +45,9 @@ workflows:
     jobs:
       - run_tests
       - deploy_to_registry:
-        filters:
-          branches:
-            only:
-              - main
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - run_tests
