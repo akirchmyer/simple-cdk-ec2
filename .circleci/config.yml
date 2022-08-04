@@ -19,14 +19,16 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Set registry"
-          command: "npm set registry $REGISTRY_URL"
-      - run:
-          name: "Set registry push token"
-          command: "npm set //$REGISTRY_DOMAIN/:_authToken $PUSH_TOKEN"
-      - run:
-          name: "Publish to registry"
-          command: "npm publish"
+          name: "Run lints and unit tests"
+          command: "npm test"
+            #name: "Set registry"
+            #command: "npm set registry $REGISTRY_URL"
+            #- run:
+            #name: "Set registry push token"
+            #command: "npm set //$REGISTRY_DOMAIN/:_authToken $PUSH_TOKEN"
+            #- run:
+            #name: "Publish to registry"
+            #command: "npm publish"
 
 workflows:
   build:
