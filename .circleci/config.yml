@@ -32,10 +32,10 @@ jobs:
           command: "npm run build"
       - run:
           name: "Set registry"
-          command: "npm set registry $REGISTRY_URL"
+          command: "npm set registry $NPM_REGISTRY_URL"
       - run:
           name: "Set registry push token"
-          command: "npm set //$REGISTRY_DOMAIN/:_authToken $PUSH_TOKEN"
+          command: "npm set //$NPM_REGISTRY_DOMAIN/:_authToken $NPM_PUSH_TOKEN"
       - run:
           name: "Publish to registry"
           command: "npm publish"
