@@ -33,8 +33,9 @@ workflows:
     jobs:
       - tests
       - deploy_to_registry:
-        branches:
-          only:
-            - main
+        filters:
+          branches:
+            only:
+              - main
         requires:
           - tests
