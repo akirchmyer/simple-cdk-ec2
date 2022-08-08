@@ -37,6 +37,15 @@ jobs:
           name: "Set registry push token"
           command: "npm set //$NPM_REGISTRY_DOMAIN/:_authToken $NPM_PUSH_TOKEN"
       - run:
+          name: "Set git email for commit"
+          command: "git config --global user.email 'noreply@example.com'"
+      - run:
+          name: "Set git name for commit"
+          command: "git config --global user.name 'CircleCi'"
+      - run:
+          name: "Version bump"
+          command: "npm version patch"
+      - run:
           name: "Publish to registry"
           command: "npm publish"
 
