@@ -1,7 +1,7 @@
 {
   "name": "simple-cdk-ec2",
   "version": "1.0.0",
-  "description": "Deploy a simple ec2 instance with provided user data via CDK",
+  "description": "Deploy a simple AWS EC2 instance with provided user data via CDK",
   "files": [
     "dist"
   ],
@@ -15,6 +15,15 @@
   "main": "dist/index.js",
   "author": "Andrew Kirchmyer",
   "license": "Apache 2.0",
+  "keywords": [
+    "AWS",
+    "CDK",
+    "ec2"
+  ],
+  "bugs": {
+    "url": "https://github.com/akirchmyer/simple-cdk-ec2/issues"
+  },
+  "homepage": "https://github.com/akirchmyer/simple-cdk-ec2",
   "devDependencies": {
     "@types/jest": "^28.1.6",
     "@types/node": "^18.6.1",
@@ -25,6 +34,7 @@
     "constructs": "^10.1.70",
     "eslint": "^8.20.0",
     "jest": "^28.1.3",
+    "jest-cdk-snapshot": "^2.0.1",
     "ts-jest": "^28.0.7",
     "typescript": "^4.7.4"
   }
