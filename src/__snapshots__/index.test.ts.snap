@@ -3,7 +3,7 @@
 exports[`test default setup 1`] = `
 Object {
   "Mappings": Object {
-    "InstanceAmiMap051BFFE2": Object {
+    "StackIdentifierInstanceAmiMap80A7E2D1": Object {
       "us-east-1": Object {
         "ami": "ami-090fa75af13c156b4",
       },
@@ -16,7 +16,7 @@ Object {
     "IPAddress": Object {
       "Value": Object {
         "Fn::GetAtt": Array [
-          "InstanceC1063A87",
+          "StackIdentifierInstance06EAAE88",
           "PublicIp",
         ],
       },
@@ -24,7 +24,7 @@ Object {
     "KeyName": Object {
       "Value": Object {
         "Fn::GetAtt": Array [
-          "KeyPairEC2KeyPaircdkkeypairA709CCF7",
+          "StackIdentifierKeyPairEC2KeyPairStackIdentifierkeypair8AD3A31B",
           "KeyPairName",
         ],
       },
@@ -37,7 +37,7 @@ Object {
             "ssh -i cdk-key.pem -o IdentitiesOnly=yes ec2-user@",
             Object {
               "Fn::GetAtt": Array [
-                "InstanceC1063A87",
+                "StackIdentifierInstance06EAAE88",
                 "PublicIp",
               ],
             },
@@ -224,329 +224,7 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "InstanceC1063A87": Object {
-      "DependsOn": Array [
-        "ec2RoleDefaultPolicyC400AE24",
-        "ec2Role38AB65C0",
-      ],
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
-            0,
-            Object {
-              "Fn::GetAZs": "",
-            },
-          ],
-        },
-        "IamInstanceProfile": Object {
-          "Ref": "InstanceInstanceProfileAB5AEF02",
-        },
-        "ImageId": Object {
-          "Fn::FindInMap": Array [
-            "InstanceAmiMap051BFFE2",
-            Object {
-              "Ref": "AWS::Region",
-            },
-            "ami",
-          ],
-        },
-        "InstanceType": "t2.micro",
-        "KeyName": Object {
-          "Fn::GetAtt": Array [
-            "KeyPairEC2KeyPaircdkkeypairA709CCF7",
-            "KeyPairName",
-          ],
-        },
-        "SecurityGroupIds": Array [
-          Object {
-            "Fn::GetAtt": Array [
-              "SecurityGroupDD263621",
-              "GroupId",
-            ],
-          },
-        ],
-        "SubnetId": Object {
-          "Ref": "VPCasteriskSubnet1SubnetEE53BCBC",
-        },
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/Instance",
-          },
-        ],
-        "UserData": Object {
-          "Fn::Base64": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "#!/bin/bash
-mkdir -p $(dirname '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh')
-aws s3 cp 's3://",
-                Object {
-                  "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-                },
-                "/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh' '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh'
-set -e
-chmod +x '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh'
-'/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh' --verbose -y",
-              ],
-            ],
-          },
-        },
-      },
-      "Type": "AWS::EC2::Instance",
-    },
-    "InstanceInstanceProfileAB5AEF02": Object {
-      "Properties": Object {
-        "Roles": Array [
-          Object {
-            "Ref": "ec2Role38AB65C0",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::InstanceProfile",
-    },
-    "KeyPairEC2KeyPaircdkkeypairA709CCF7": Object {
-      "DeletionPolicy": "Delete",
-      "Properties": Object {
-        "Description": "Key Pair created with CDK Deployment",
-        "ExposePublicKey": false,
-        "KmsPrivate": "alias/aws/secretsmanager",
-        "KmsPublic": "alias/aws/secretsmanager",
-        "Name": "cdk-keypair",
-        "PublicKey": "",
-        "PublicKeyFormat": "OPENSSH",
-        "RemoveKeySecretsAfterDays": 0,
-        "SecretPrefix": "ec2-ssh-key/",
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
-            "EC2KeyNameManagerLambdaBE629145",
-            "Arn",
-          ],
-        },
-        "StackName": "StackIdentifier",
-        "StorePublicKey": false,
-        "Tags": Object {
-          "CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
-        },
-      },
-      "Type": "Custom::EC2-Key-Pair",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "SecurityGroupDD263621": Object {
-      "Properties": Object {
-        "GroupDescription": "Allow SSH (TCP port 22) in",
-        "SecurityGroupEgress": Array [
-          Object {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "Allow all outbound traffic by default",
-            "IpProtocol": "-1",
-          },
-        ],
-        "SecurityGroupIngress": Array [
-          Object {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "Allow SSH Access",
-            "FromPort": 22,
-            "IpProtocol": "tcp",
-            "ToPort": 22,
-          },
-          Object {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "Allow HTTP",
-            "FromPort": 80,
-            "IpProtocol": "tcp",
-            "ToPort": 80,
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::SecurityGroup",
-    },
-    "VPCB9E5F0B4": Object {
-      "Properties": Object {
-        "CidrBlock": "10.0.0.0/16",
-        "EnableDnsHostnames": true,
-        "EnableDnsSupport": true,
-        "InstanceTenancy": "default",
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/VPC",
-          },
-        ],
-      },
-      "Type": "AWS::EC2::VPC",
-    },
-    "VPCIGWB7E252D3": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/VPC",
-          },
-        ],
-      },
-      "Type": "AWS::EC2::InternetGateway",
-    },
-    "VPCVPCGW99B986DC": Object {
-      "Properties": Object {
-        "InternetGatewayId": Object {
-          "Ref": "VPCIGWB7E252D3",
-        },
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::VPCGatewayAttachment",
-    },
-    "VPCasteriskSubnet1DefaultRoute377544B7": Object {
-      "DependsOn": Array [
-        "VPCVPCGW99B986DC",
-      ],
-      "Properties": Object {
-        "DestinationCidrBlock": "0.0.0.0/0",
-        "GatewayId": Object {
-          "Ref": "VPCIGWB7E252D3",
-        },
-        "RouteTableId": Object {
-          "Ref": "VPCasteriskSubnet1RouteTable23B73BA2",
-        },
-      },
-      "Type": "AWS::EC2::Route",
-    },
-    "VPCasteriskSubnet1RouteTable23B73BA2": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/VPC/asteriskSubnet1",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::RouteTable",
-    },
-    "VPCasteriskSubnet1RouteTableAssociationFD2182F2": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
-          "Ref": "VPCasteriskSubnet1RouteTable23B73BA2",
-        },
-        "SubnetId": Object {
-          "Ref": "VPCasteriskSubnet1SubnetEE53BCBC",
-        },
-      },
-      "Type": "AWS::EC2::SubnetRouteTableAssociation",
-    },
-    "VPCasteriskSubnet1SubnetEE53BCBC": Object {
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
-            0,
-            Object {
-              "Fn::GetAZs": "",
-            },
-          ],
-        },
-        "CidrBlock": "10.0.0.0/24",
-        "MapPublicIpOnLaunch": true,
-        "Tags": Array [
-          Object {
-            "Key": "aws-cdk:subnet-name",
-            "Value": "asterisk",
-          },
-          Object {
-            "Key": "aws-cdk:subnet-type",
-            "Value": "Public",
-          },
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/VPC/asteriskSubnet1",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::Subnet",
-    },
-    "VPCasteriskSubnet2DefaultRoute9650F4DB": Object {
-      "DependsOn": Array [
-        "VPCVPCGW99B986DC",
-      ],
-      "Properties": Object {
-        "DestinationCidrBlock": "0.0.0.0/0",
-        "GatewayId": Object {
-          "Ref": "VPCIGWB7E252D3",
-        },
-        "RouteTableId": Object {
-          "Ref": "VPCasteriskSubnet2RouteTable01067F80",
-        },
-      },
-      "Type": "AWS::EC2::Route",
-    },
-    "VPCasteriskSubnet2RouteTable01067F80": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/VPC/asteriskSubnet2",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::RouteTable",
-    },
-    "VPCasteriskSubnet2RouteTableAssociation781F3620": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
-          "Ref": "VPCasteriskSubnet2RouteTable01067F80",
-        },
-        "SubnetId": Object {
-          "Ref": "VPCasteriskSubnet2Subnet7959E1B2",
-        },
-      },
-      "Type": "AWS::EC2::SubnetRouteTableAssociation",
-    },
-    "VPCasteriskSubnet2Subnet7959E1B2": Object {
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
-            1,
-            Object {
-              "Fn::GetAZs": "",
-            },
-          ],
-        },
-        "CidrBlock": "10.0.1.0/24",
-        "MapPublicIpOnLaunch": true,
-        "Tags": Array [
-          Object {
-            "Key": "aws-cdk:subnet-name",
-            "Value": "asterisk",
-          },
-          Object {
-            "Key": "aws-cdk:subnet-type",
-            "Value": "Public",
-          },
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/VPC/asteriskSubnet2",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::Subnet",
-    },
-    "ec2Role38AB65C0": Object {
+    "StackIdentifierEc2Role7D41E3CB": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -587,7 +265,7 @@ chmod +x '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.
       },
       "Type": "AWS::IAM::Role",
     },
-    "ec2RoleDefaultPolicyC400AE24": Object {
+    "StackIdentifierEc2RoleDefaultPolicy01AD2691": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -635,14 +313,951 @@ chmod +x '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "ec2RoleDefaultPolicyC400AE24",
+        "PolicyName": "StackIdentifierEc2RoleDefaultPolicy01AD2691",
         "Roles": Array [
           Object {
-            "Ref": "ec2Role38AB65C0",
+            "Ref": "StackIdentifierEc2Role7D41E3CB",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
+    },
+    "StackIdentifierInstance06EAAE88": Object {
+      "DependsOn": Array [
+        "StackIdentifierEc2RoleDefaultPolicy01AD2691",
+        "StackIdentifierEc2Role7D41E3CB",
+      ],
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "IamInstanceProfile": Object {
+          "Ref": "StackIdentifierInstanceInstanceProfile3D1BC723",
+        },
+        "ImageId": Object {
+          "Fn::FindInMap": Array [
+            "StackIdentifierInstanceAmiMap80A7E2D1",
+            Object {
+              "Ref": "AWS::Region",
+            },
+            "ami",
+          ],
+        },
+        "InstanceType": "t2.micro",
+        "KeyName": Object {
+          "Fn::GetAtt": Array [
+            "StackIdentifierKeyPairEC2KeyPairStackIdentifierkeypair8AD3A31B",
+            "KeyPairName",
+          ],
+        },
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "StackIdentifierSecurityGroupACB08E06",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1Subnet297A2447",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifierEc2Instance",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "#!/bin/bash
+mkdir -p $(dirname '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh')
+aws s3 cp 's3://",
+                Object {
+                  "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+                },
+                "/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh' '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh'
+set -e
+chmod +x '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh'
+'/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh' --verbose -y",
+              ],
+            ],
+          },
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "StackIdentifierInstanceInstanceProfile3D1BC723": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "StackIdentifierEc2Role7D41E3CB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "StackIdentifierKeyPairEC2KeyPairStackIdentifierkeypair8AD3A31B": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Description": "Key Pair created with CDK Deployment",
+        "ExposePublicKey": false,
+        "KmsPrivate": "alias/aws/secretsmanager",
+        "KmsPublic": "alias/aws/secretsmanager",
+        "Name": "StackIdentifier-keypair",
+        "PublicKey": "",
+        "PublicKeyFormat": "OPENSSH",
+        "RemoveKeySecretsAfterDays": 0,
+        "SecretPrefix": "ec2-ssh-key/",
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "EC2KeyNameManagerLambdaBE629145",
+            "Arn",
+          ],
+        },
+        "StackName": "StackIdentifier",
+        "StorePublicKey": false,
+        "Tags": Object {
+          "CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+        },
+      },
+      "Type": "Custom::EC2-Key-Pair",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "StackIdentifierSecurityGroupACB08E06": Object {
+      "Properties": Object {
+        "GroupDescription": "Allow SSH (TCP port 22) in",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow 22",
+            "FromPort": 22,
+            "IpProtocol": "tcp",
+            "ToPort": 22,
+          },
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow 80",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow 443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "StackIdentifierVPC5969BA80": Object {
+      "Properties": Object {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "StackIdentifierVPCIGWD7CBE6E4": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::InternetGateway",
+    },
+    "StackIdentifierVPCVPCGW354FD6CE": Object {
+      "Properties": Object {
+        "InternetGatewayId": Object {
+          "Ref": "StackIdentifierVPCIGWD7CBE6E4",
+        },
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+    "StackIdentifierVPCasteriskSubnet1DefaultRoute242DBDFD": Object {
+      "DependsOn": Array [
+        "StackIdentifierVPCVPCGW354FD6CE",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "StackIdentifierVPCIGWD7CBE6E4",
+        },
+        "RouteTableId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1RouteTable90C8AEEB",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "StackIdentifierVPCasteriskSubnet1RouteTable90C8AEEB": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "StackIdentifierVPCasteriskSubnet1RouteTableAssociation4E67FC3C": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1RouteTable90C8AEEB",
+        },
+        "SubnetId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1Subnet297A2447",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "StackIdentifierVPCasteriskSubnet1Subnet297A2447": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.0.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "asterisk",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "StackIdentifierVPCasteriskSubnet2DefaultRouteD378FEBE": Object {
+      "DependsOn": Array [
+        "StackIdentifierVPCVPCGW354FD6CE",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "StackIdentifierVPCIGWD7CBE6E4",
+        },
+        "RouteTableId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet2RouteTable159BCB4C",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "StackIdentifierVPCasteriskSubnet2RouteTable159BCB4C": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "StackIdentifierVPCasteriskSubnet2RouteTableAssociation9A72D6F9": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet2RouteTable159BCB4C",
+        },
+        "SubnetId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet2SubnetA0401C87",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "StackIdentifierVPCasteriskSubnet2SubnetA0401C87": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.1.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "asterisk",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`test with no user data 1`] = `
+Object {
+  "Mappings": Object {
+    "StackIdentifierInstanceAmiMap80A7E2D1": Object {
+      "us-east-1": Object {
+        "ami": "ami-090fa75af13c156b4",
+      },
+    },
+  },
+  "Outputs": Object {
+    "DownloadKeyCommand": Object {
+      "Value": "aws secretsmanager get-secret-value --secret-id ec2-ssh-key/cdk-keypair/private --query SecretString --output text > cdk-key.pem && chmod 400 cdk-key.pem",
+    },
+    "IPAddress": Object {
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "StackIdentifierInstance06EAAE88",
+          "PublicIp",
+        ],
+      },
+    },
+    "KeyName": Object {
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "StackIdentifierKeyPairEC2KeyPairStackIdentifierkeypair8AD3A31B",
+          "KeyPairName",
+        ],
+      },
+    },
+    "sshcommand": Object {
+      "Value": Object {
+        "Fn::Join": Array [
+          "",
+          Array [
+            "ssh -i cdk-key.pem -o IdentitiesOnly=yes ec2-user@",
+            Object {
+              "Fn::GetAtt": Array [
+                "StackIdentifierInstance06EAAE88",
+                "PublicIp",
+              ],
+            },
+          ],
+        ],
+      },
+    },
+  },
+  "Parameters": Object {
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": Object {
+    "EC2KeyNameManagerLambdaBE629145": Object {
+      "DependsOn": Array [
+        "EC2KeyPairManagerRoleB243C519",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "4b53adc667dcab419bec9e03553dce125d10f1d9c6ac1d2c082001b9332f150f.zip",
+        },
+        "Description": "Custom CFN resource: Manage EC2 Key Pairs",
+        "FunctionName": "StackIdentifier-CFN-Resource-Custom-EC2-Key-Pair",
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "EC2KeyPairManagerRoleB243C519",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 180,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "EC2KeyPairManagerPolicyEBBC1576": Object {
+      "Properties": Object {
+        "Description": "Used by Lambda CFN-Resource-Custom-EC2-Key-Pair, which is a custom CFN resource, managing EC2 Key Pairs",
+        "ManagedPolicyName": "StackIdentifier-CFN-Resource-Custom-EC2-Key-Pair",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "ec2:DescribeKeyPairs",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "ec2:CreateKeyPair",
+                "ec2:CreateTags",
+                "ec2:ImportKeyPair",
+              ],
+              "Condition": Object {
+                "StringLike": Object {
+                  "aws:RequestTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ec2:*:*:key-pair/*",
+                  ],
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "ec2:CreateTags",
+                "ec2:DeleteKeyPair",
+                "ec2:DeleteTags",
+              ],
+              "Condition": Object {
+                "StringLike": Object {
+                  "ec2:ResourceTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ec2:*:*:key-pair/*",
+                  ],
+                ],
+              },
+            },
+            Object {
+              "Action": "secretsmanager:ListSecrets",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "secretsmanager:CreateSecret",
+                "secretsmanager:TagResource",
+              ],
+              "Condition": Object {
+                "StringLike": Object {
+                  "aws:RequestTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "secretsmanager:DeleteResourcePolicy",
+                "secretsmanager:DeleteSecret",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetResourcePolicy",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:ListSecretVersionIds",
+                "secretsmanager:PutResourcePolicy",
+                "secretsmanager:PutSecretValue",
+                "secretsmanager:RestoreSecret",
+                "secretsmanager:UntagResource",
+                "secretsmanager:UpdateSecret",
+                "secretsmanager:UpdateSecretVersionStage",
+              ],
+              "Condition": Object {
+                "StringLike": Object {
+                  "secretsmanager:ResourceTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "EC2KeyPairManagerRoleB243C519": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "Used by Lambda CFN-Resource-Custom-EC2-Key-Pair, which is a custom CFN resource, managing EC2 Key Pairs",
+        "ManagedPolicyArns": Array [
+          Object {
+            "Ref": "EC2KeyPairManagerPolicyEBBC1576",
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "RoleName": "StackIdentifier-CFN-Resource-Custom-EC2-Key-Pair",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "StackIdentifierEc2Role7D41E3CB": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "ec2.",
+                      Object {
+                        "Ref": "AWS::URLSuffix",
+                      },
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AmazonSSMManagedInstanceCore",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "StackIdentifierInstance06EAAE88": Object {
+      "DependsOn": Array [
+        "StackIdentifierEc2Role7D41E3CB",
+      ],
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "IamInstanceProfile": Object {
+          "Ref": "StackIdentifierInstanceInstanceProfile3D1BC723",
+        },
+        "ImageId": Object {
+          "Fn::FindInMap": Array [
+            "StackIdentifierInstanceAmiMap80A7E2D1",
+            Object {
+              "Ref": "AWS::Region",
+            },
+            "ami",
+          ],
+        },
+        "InstanceType": "t2.micro",
+        "KeyName": Object {
+          "Fn::GetAtt": Array [
+            "StackIdentifierKeyPairEC2KeyPairStackIdentifierkeypair8AD3A31B",
+            "KeyPairName",
+          ],
+        },
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "StackIdentifierSecurityGroupACB08E06",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1Subnet297A2447",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifierEc2Instance",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": "#!/bin/bash",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "StackIdentifierInstanceInstanceProfile3D1BC723": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "StackIdentifierEc2Role7D41E3CB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "StackIdentifierKeyPairEC2KeyPairStackIdentifierkeypair8AD3A31B": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Description": "Key Pair created with CDK Deployment",
+        "ExposePublicKey": false,
+        "KmsPrivate": "alias/aws/secretsmanager",
+        "KmsPublic": "alias/aws/secretsmanager",
+        "Name": "StackIdentifier-keypair",
+        "PublicKey": "",
+        "PublicKeyFormat": "OPENSSH",
+        "RemoveKeySecretsAfterDays": 0,
+        "SecretPrefix": "ec2-ssh-key/",
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "EC2KeyNameManagerLambdaBE629145",
+            "Arn",
+          ],
+        },
+        "StackName": "StackIdentifier",
+        "StorePublicKey": false,
+        "Tags": Object {
+          "CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+        },
+      },
+      "Type": "Custom::EC2-Key-Pair",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "StackIdentifierSecurityGroupACB08E06": Object {
+      "Properties": Object {
+        "GroupDescription": "Allow SSH (TCP port 22) in",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow 22",
+            "FromPort": 22,
+            "IpProtocol": "tcp",
+            "ToPort": 22,
+          },
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow 80",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow 443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "StackIdentifierVPC5969BA80": Object {
+      "Properties": Object {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "StackIdentifierVPCIGWD7CBE6E4": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::InternetGateway",
+    },
+    "StackIdentifierVPCVPCGW354FD6CE": Object {
+      "Properties": Object {
+        "InternetGatewayId": Object {
+          "Ref": "StackIdentifierVPCIGWD7CBE6E4",
+        },
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+    "StackIdentifierVPCasteriskSubnet1DefaultRoute242DBDFD": Object {
+      "DependsOn": Array [
+        "StackIdentifierVPCVPCGW354FD6CE",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "StackIdentifierVPCIGWD7CBE6E4",
+        },
+        "RouteTableId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1RouteTable90C8AEEB",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "StackIdentifierVPCasteriskSubnet1RouteTable90C8AEEB": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "StackIdentifierVPCasteriskSubnet1RouteTableAssociation4E67FC3C": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1RouteTable90C8AEEB",
+        },
+        "SubnetId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1Subnet297A2447",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "StackIdentifierVPCasteriskSubnet1Subnet297A2447": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.0.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "asterisk",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "StackIdentifierVPCasteriskSubnet2DefaultRouteD378FEBE": Object {
+      "DependsOn": Array [
+        "StackIdentifierVPCVPCGW354FD6CE",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "StackIdentifierVPCIGWD7CBE6E4",
+        },
+        "RouteTableId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet2RouteTable159BCB4C",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "StackIdentifierVPCasteriskSubnet2RouteTable159BCB4C": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "StackIdentifierVPCasteriskSubnet2RouteTableAssociation9A72D6F9": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet2RouteTable159BCB4C",
+        },
+        "SubnetId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet2SubnetA0401C87",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "StackIdentifierVPCasteriskSubnet2SubnetA0401C87": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.1.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "asterisk",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
     },
   },
   "Rules": Object {
@@ -678,7 +1293,7 @@ chmod +x '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.
 exports[`test with options 1`] = `
 Object {
   "Mappings": Object {
-    "InstanceAmiMap051BFFE2": Object {
+    "StackIdentifierInstanceAmiMap80A7E2D1": Object {
       "us-east-1": Object {
         "ami": "image-id",
       },
@@ -691,7 +1306,7 @@ Object {
     "IPAddress": Object {
       "Value": Object {
         "Fn::GetAtt": Array [
-          "InstanceC1063A87",
+          "StackIdentifierInstance06EAAE88",
           "PublicIp",
         ],
       },
@@ -699,7 +1314,7 @@ Object {
     "KeyName": Object {
       "Value": Object {
         "Fn::GetAtt": Array [
-          "KeyPairEC2KeyPaircdkkeypairA709CCF7",
+          "StackIdentifierKeyPairEC2KeyPairStackIdentifierkeypair8AD3A31B",
           "KeyPairName",
         ],
       },
@@ -712,7 +1327,7 @@ Object {
             "ssh -i cdk-key.pem -o IdentitiesOnly=yes ec2-user@",
             Object {
               "Fn::GetAtt": Array [
-                "InstanceC1063A87",
+                "StackIdentifierInstance06EAAE88",
                 "PublicIp",
               ],
             },
@@ -899,329 +1514,7 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "InstanceC1063A87": Object {
-      "DependsOn": Array [
-        "ec2RoleDefaultPolicyC400AE24",
-        "ec2Role38AB65C0",
-      ],
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
-            0,
-            Object {
-              "Fn::GetAZs": "",
-            },
-          ],
-        },
-        "IamInstanceProfile": Object {
-          "Ref": "InstanceInstanceProfileAB5AEF02",
-        },
-        "ImageId": Object {
-          "Fn::FindInMap": Array [
-            "InstanceAmiMap051BFFE2",
-            Object {
-              "Ref": "AWS::Region",
-            },
-            "ami",
-          ],
-        },
-        "InstanceType": "t2.micro",
-        "KeyName": Object {
-          "Fn::GetAtt": Array [
-            "KeyPairEC2KeyPaircdkkeypairA709CCF7",
-            "KeyPairName",
-          ],
-        },
-        "SecurityGroupIds": Array [
-          Object {
-            "Fn::GetAtt": Array [
-              "SecurityGroupDD263621",
-              "GroupId",
-            ],
-          },
-        ],
-        "SubnetId": Object {
-          "Ref": "VPCasteriskSubnet1SubnetEE53BCBC",
-        },
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/Instance",
-          },
-        ],
-        "UserData": Object {
-          "Fn::Base64": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "#!/bin/bash
-mkdir -p $(dirname '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh')
-aws s3 cp 's3://",
-                Object {
-                  "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-                },
-                "/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh' '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh'
-set -e
-chmod +x '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh'
-'/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh' --verbose -y",
-              ],
-            ],
-          },
-        },
-      },
-      "Type": "AWS::EC2::Instance",
-    },
-    "InstanceInstanceProfileAB5AEF02": Object {
-      "Properties": Object {
-        "Roles": Array [
-          Object {
-            "Ref": "ec2Role38AB65C0",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::InstanceProfile",
-    },
-    "KeyPairEC2KeyPaircdkkeypairA709CCF7": Object {
-      "DeletionPolicy": "Delete",
-      "Properties": Object {
-        "Description": "Key Pair created with CDK Deployment",
-        "ExposePublicKey": false,
-        "KmsPrivate": "alias/aws/secretsmanager",
-        "KmsPublic": "alias/aws/secretsmanager",
-        "Name": "cdk-keypair",
-        "PublicKey": "",
-        "PublicKeyFormat": "OPENSSH",
-        "RemoveKeySecretsAfterDays": 0,
-        "SecretPrefix": "ec2-ssh-key/",
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
-            "EC2KeyNameManagerLambdaBE629145",
-            "Arn",
-          ],
-        },
-        "StackName": "StackIdentifier",
-        "StorePublicKey": false,
-        "Tags": Object {
-          "CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
-        },
-      },
-      "Type": "Custom::EC2-Key-Pair",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "SecurityGroupDD263621": Object {
-      "Properties": Object {
-        "GroupDescription": "Allow SSH (TCP port 22) in",
-        "SecurityGroupEgress": Array [
-          Object {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "Allow all outbound traffic by default",
-            "IpProtocol": "-1",
-          },
-        ],
-        "SecurityGroupIngress": Array [
-          Object {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "Allow SSH Access",
-            "FromPort": 22,
-            "IpProtocol": "tcp",
-            "ToPort": 22,
-          },
-          Object {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "Allow HTTP",
-            "FromPort": 80,
-            "IpProtocol": "tcp",
-            "ToPort": 80,
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::SecurityGroup",
-    },
-    "VPCB9E5F0B4": Object {
-      "Properties": Object {
-        "CidrBlock": "10.0.0.0/16",
-        "EnableDnsHostnames": true,
-        "EnableDnsSupport": true,
-        "InstanceTenancy": "default",
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/VPC",
-          },
-        ],
-      },
-      "Type": "AWS::EC2::VPC",
-    },
-    "VPCIGWB7E252D3": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/VPC",
-          },
-        ],
-      },
-      "Type": "AWS::EC2::InternetGateway",
-    },
-    "VPCVPCGW99B986DC": Object {
-      "Properties": Object {
-        "InternetGatewayId": Object {
-          "Ref": "VPCIGWB7E252D3",
-        },
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::VPCGatewayAttachment",
-    },
-    "VPCasteriskSubnet1DefaultRoute377544B7": Object {
-      "DependsOn": Array [
-        "VPCVPCGW99B986DC",
-      ],
-      "Properties": Object {
-        "DestinationCidrBlock": "0.0.0.0/0",
-        "GatewayId": Object {
-          "Ref": "VPCIGWB7E252D3",
-        },
-        "RouteTableId": Object {
-          "Ref": "VPCasteriskSubnet1RouteTable23B73BA2",
-        },
-      },
-      "Type": "AWS::EC2::Route",
-    },
-    "VPCasteriskSubnet1RouteTable23B73BA2": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/VPC/asteriskSubnet1",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::RouteTable",
-    },
-    "VPCasteriskSubnet1RouteTableAssociationFD2182F2": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
-          "Ref": "VPCasteriskSubnet1RouteTable23B73BA2",
-        },
-        "SubnetId": Object {
-          "Ref": "VPCasteriskSubnet1SubnetEE53BCBC",
-        },
-      },
-      "Type": "AWS::EC2::SubnetRouteTableAssociation",
-    },
-    "VPCasteriskSubnet1SubnetEE53BCBC": Object {
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
-            0,
-            Object {
-              "Fn::GetAZs": "",
-            },
-          ],
-        },
-        "CidrBlock": "10.0.0.0/24",
-        "MapPublicIpOnLaunch": true,
-        "Tags": Array [
-          Object {
-            "Key": "aws-cdk:subnet-name",
-            "Value": "asterisk",
-          },
-          Object {
-            "Key": "aws-cdk:subnet-type",
-            "Value": "Public",
-          },
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/VPC/asteriskSubnet1",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::Subnet",
-    },
-    "VPCasteriskSubnet2DefaultRoute9650F4DB": Object {
-      "DependsOn": Array [
-        "VPCVPCGW99B986DC",
-      ],
-      "Properties": Object {
-        "DestinationCidrBlock": "0.0.0.0/0",
-        "GatewayId": Object {
-          "Ref": "VPCIGWB7E252D3",
-        },
-        "RouteTableId": Object {
-          "Ref": "VPCasteriskSubnet2RouteTable01067F80",
-        },
-      },
-      "Type": "AWS::EC2::Route",
-    },
-    "VPCasteriskSubnet2RouteTable01067F80": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/VPC/asteriskSubnet2",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::RouteTable",
-    },
-    "VPCasteriskSubnet2RouteTableAssociation781F3620": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
-          "Ref": "VPCasteriskSubnet2RouteTable01067F80",
-        },
-        "SubnetId": Object {
-          "Ref": "VPCasteriskSubnet2Subnet7959E1B2",
-        },
-      },
-      "Type": "AWS::EC2::SubnetRouteTableAssociation",
-    },
-    "VPCasteriskSubnet2Subnet7959E1B2": Object {
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
-            1,
-            Object {
-              "Fn::GetAZs": "",
-            },
-          ],
-        },
-        "CidrBlock": "10.0.1.0/24",
-        "MapPublicIpOnLaunch": true,
-        "Tags": Array [
-          Object {
-            "Key": "aws-cdk:subnet-name",
-            "Value": "asterisk",
-          },
-          Object {
-            "Key": "aws-cdk:subnet-type",
-            "Value": "Public",
-          },
-          Object {
-            "Key": "Name",
-            "Value": "StackIdentifier/VPC/asteriskSubnet2",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::Subnet",
-    },
-    "ec2Role38AB65C0": Object {
+    "StackIdentifierEc2Role7D41E3CB": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1262,7 +1555,7 @@ chmod +x '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.
       },
       "Type": "AWS::IAM::Role",
     },
-    "ec2RoleDefaultPolicyC400AE24": Object {
+    "StackIdentifierEc2RoleDefaultPolicy01AD2691": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -1310,14 +1603,363 @@ chmod +x '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "ec2RoleDefaultPolicyC400AE24",
+        "PolicyName": "StackIdentifierEc2RoleDefaultPolicy01AD2691",
         "Roles": Array [
           Object {
-            "Ref": "ec2Role38AB65C0",
+            "Ref": "StackIdentifierEc2Role7D41E3CB",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
+    },
+    "StackIdentifierInstance06EAAE88": Object {
+      "DependsOn": Array [
+        "StackIdentifierEc2RoleDefaultPolicy01AD2691",
+        "StackIdentifierEc2Role7D41E3CB",
+      ],
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "IamInstanceProfile": Object {
+          "Ref": "StackIdentifierInstanceInstanceProfile3D1BC723",
+        },
+        "ImageId": Object {
+          "Fn::FindInMap": Array [
+            "StackIdentifierInstanceAmiMap80A7E2D1",
+            Object {
+              "Ref": "AWS::Region",
+            },
+            "ami",
+          ],
+        },
+        "InstanceType": "t2.micro",
+        "KeyName": Object {
+          "Fn::GetAtt": Array [
+            "StackIdentifierKeyPairEC2KeyPairStackIdentifierkeypair8AD3A31B",
+            "KeyPairName",
+          ],
+        },
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "StackIdentifierSecurityGroupACB08E06",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1Subnet297A2447",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "MyInstance",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "#!/bin/bash
+mkdir -p $(dirname '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh')
+aws s3 cp 's3://",
+                Object {
+                  "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+                },
+                "/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh' '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh'
+set -e
+chmod +x '/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh'
+'/tmp/95c924c84f5d023be4edee540cb2cb401a49f115d01ed403b288f6cb412771df.sh' --verbose -y",
+              ],
+            ],
+          },
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "StackIdentifierInstanceInstanceProfile3D1BC723": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "StackIdentifierEc2Role7D41E3CB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "StackIdentifierKeyPairEC2KeyPairStackIdentifierkeypair8AD3A31B": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Description": "Key Pair created with CDK Deployment",
+        "ExposePublicKey": false,
+        "KmsPrivate": "alias/aws/secretsmanager",
+        "KmsPublic": "alias/aws/secretsmanager",
+        "Name": "StackIdentifier-keypair",
+        "PublicKey": "",
+        "PublicKeyFormat": "OPENSSH",
+        "RemoveKeySecretsAfterDays": 0,
+        "SecretPrefix": "ec2-ssh-key/",
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "EC2KeyNameManagerLambdaBE629145",
+            "Arn",
+          ],
+        },
+        "StackName": "StackIdentifier",
+        "StorePublicKey": false,
+        "Tags": Object {
+          "CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+        },
+      },
+      "Type": "Custom::EC2-Key-Pair",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "StackIdentifierSecurityGroupACB08E06": Object {
+      "Properties": Object {
+        "GroupDescription": "Allow SSH (TCP port 22) in",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "255.255.255.255/32",
+            "Description": "Disallow all traffic",
+            "FromPort": 252,
+            "IpProtocol": "icmp",
+            "ToPort": 86,
+          },
+        ],
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow 8080",
+            "FromPort": 8080,
+            "IpProtocol": "tcp",
+            "ToPort": 8080,
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "StackIdentifierVPC5969BA80": Object {
+      "Properties": Object {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "StackIdentifierVPCIGWD7CBE6E4": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::InternetGateway",
+    },
+    "StackIdentifierVPCVPCGW354FD6CE": Object {
+      "Properties": Object {
+        "InternetGatewayId": Object {
+          "Ref": "StackIdentifierVPCIGWD7CBE6E4",
+        },
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+    "StackIdentifierVPCasteriskSubnet1DefaultRoute242DBDFD": Object {
+      "DependsOn": Array [
+        "StackIdentifierVPCVPCGW354FD6CE",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "StackIdentifierVPCIGWD7CBE6E4",
+        },
+        "RouteTableId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1RouteTable90C8AEEB",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "StackIdentifierVPCasteriskSubnet1EIP6B056BAD": Object {
+      "Properties": Object {
+        "Domain": "vpc",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "StackIdentifierVPCasteriskSubnet1NATGatewayCD733092": Object {
+      "Properties": Object {
+        "AllocationId": Object {
+          "Fn::GetAtt": Array [
+            "StackIdentifierVPCasteriskSubnet1EIP6B056BAD",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1Subnet297A2447",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "StackIdentifierVPCasteriskSubnet1RouteTable90C8AEEB": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "StackIdentifierVPCasteriskSubnet1RouteTableAssociation4E67FC3C": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1RouteTable90C8AEEB",
+        },
+        "SubnetId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet1Subnet297A2447",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "StackIdentifierVPCasteriskSubnet1Subnet297A2447": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.0.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "asterisk",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "StackIdentifierVPCasteriskSubnet2DefaultRouteD378FEBE": Object {
+      "DependsOn": Array [
+        "StackIdentifierVPCVPCGW354FD6CE",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "StackIdentifierVPCIGWD7CBE6E4",
+        },
+        "RouteTableId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet2RouteTable159BCB4C",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "StackIdentifierVPCasteriskSubnet2RouteTable159BCB4C": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "StackIdentifierVPCasteriskSubnet2RouteTableAssociation9A72D6F9": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet2RouteTable159BCB4C",
+        },
+        "SubnetId": Object {
+          "Ref": "StackIdentifierVPCasteriskSubnet2SubnetA0401C87",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "StackIdentifierVPCasteriskSubnet2SubnetA0401C87": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.1.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "asterisk",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "StackIdentifier/StackIdentifierVPC/asteriskSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "StackIdentifierVPC5969BA80",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
     },
   },
   "Rules": Object {
