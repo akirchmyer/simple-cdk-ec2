@@ -1,36 +1,31 @@
 import * as path from 'path';
+import * as cdk from 'aws-cdk-lib';
 import { Ec2CdkStack } from './index';
-import { Stack } from 'aws-cdk-lib';
-import 'jest-cdk-snapshot';
+import { Template } from 'aws-cdk-lib/assertions';
 
 test('test default setup', () => {
-  const stack = new Stack();
+    const app = new cdk.App();
+    const userDataPath = path.join(__dirname, 'testUserData.sh');
 
-  const userDataPath = path.join(__dirname, 'testUserData.sh');
+    const stack = new Ec2CdkStack(app, 'StackIdentifier', {}, {
+        userDataPath
+    });
 
-  new Ec2CdkStack(stack, 'StackName', {}, {
-      userDataPath
-  });
+    const template = Template.fromStack(stack);
 
-  expect(stack).toMatchCdkSnapshot({
-      yaml: true,
-      ignoreAssets: true
-  });
+    expect(template.toJSON()).toMatchSnapshot();
 });
 
 test('test with options', () => {
-  const stack = new Stack();
+    const app = new cdk.App();
+    const userDataPath = path.join(__dirname, 'testUserData.sh');
 
-  const userDataPath = path.join(__dirname, 'testUserData.sh');
+    const stack = new Ec2CdkStack(app, 'StackIdentifier', {}, {
+        userDataPath,
+        image: 'image-id'
+    });
 
-  new Ec2CdkStack(stack, 'StackName', {}, {
-      image: 'foobar',
-      userDataPath
-  });
+    const template = Template.fromStack(stack);
 
-  expect(stack).toMatchCdkSnapshot({
-      yaml: true,
-      ignoreAssets: true
-  });
-
+    expect(template.toJSON()).toMatchSnapshot();
 });
