@@ -4,8 +4,6 @@ version: 2.1
 
 jobs:
   run_tests:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
       - image: cimg/node:18.7.0
     steps:
@@ -19,44 +17,13 @@ jobs:
       - run:
           name: "Run lints and unit tests"
           command: "npm test"
-  deploy_to_registry:
-    docker:
-      - image: cimg/node:18.7.0
-    steps:
-      - checkout
-      - run:
-          name: "Run npm ci"
-          command: "npm ci"
-      - run:
-          name: "Run build"
-          command: "npm run build"
-      - run:
-          name: "Set registry"
-          command: "npm set registry $NPM_REGISTRY_URL"
-      - run:
-          name: "Set registry push token"
-          command: "npm set //$NPM_REGISTRY_DOMAIN/:_authToken $NPM_PUSH_TOKEN"
-      - run:
-          name: "Set git email for commit"
-          command: "git config --global user.email 'noreply@example.com'"
-      - run:
-          name: "Set git name for commit"
-          command: "git config --global user.name 'CircleCi'"
-      - run:
-          name: "Version bump"
-          command: "npm version patch"
-      - run:
-          name: "Publish to registry"
-          command: "npm publish"
 
 workflows:
   build:
     jobs:
-      - run_tests
-      - deploy_to_registry:
-          filters:
-            branches:
-              only:
-                - main
-          requires:
-            - run_tests
+    - run_tests:
+        filters:
+          branches:
+            only: /.*/
+          tags:
+            only: /.*/
