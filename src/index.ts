@@ -11,7 +11,7 @@ interface Ec2CdkStackOptions {
     securityGroupProps?: ec2.SecurityGroupProps,
     allowPorts?: Array<number>,
     image?: string,
-    ec2Props?: ec2.SecurityGroupProps
+    ec2Props?: ec2.InstanceProps
 }
 
 export class Ec2CdkStack extends cdk.Stack {
