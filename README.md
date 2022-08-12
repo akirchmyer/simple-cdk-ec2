@@ -47,3 +47,7 @@ CDK will output the following:
 | vpcProps | ?ec2.VpcProps (from aws-cdk-lib/aws-ec2) | See index.ts | Override the default VPC configuration in this package |
 | securityGroupProps | ?ec2.SecurityGroupProps (from aws-cdk-lib/aws-ec2) | See index.ts | Override the default Security Group configuration in this package |
 | ec2Props | ?ec2.Ec2Props (from aws-cdk-lib/aws-ec2) | See index.ts | Override the default EC2 instance configuration in this package |
+
+## Example
+
+https://github.com/akirchmyer/verdaccio-cdk-ec2
