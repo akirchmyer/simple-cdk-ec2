@@ -84,7 +84,7 @@ export class Ec2CdkStack extends cdk.Stack {
     // Create outputs for connecting
     new cdk.CfnOutput(this, 'IP Address', { value: ec2Instance.instancePublicIp });
     new cdk.CfnOutput(this, 'Key Name', { value: key.keyPairName })
-    new cdk.CfnOutput(this, 'Download Key Command', { value: 'aws secretsmanager get-secret-value --secret-id ec2-ssh-key/cdk-keypair/private --query SecretString --output text > cdk-key.pem && chmod 400 cdk-key.pem' })
+    new cdk.CfnOutput(this, 'Download Key Command', { value: `aws secretsmanager get-secret-value --secret-id ec2-ssh-key/${id}-keypair/private --query SecretString --output text > cdk-key.pem && chmod 400 cdk-key.pem` })
     new cdk.CfnOutput(this, 'ssh command', { value: 'ssh -i cdk-key.pem -o IdentitiesOnly=yes ec2-user@' + ec2Instance.instancePublicIp })
   }
 }

@@ -11,7 +11,7 @@ Object {
   },
   "Outputs": Object {
     "DownloadKeyCommand": Object {
-      "Value": "aws secretsmanager get-secret-value --secret-id ec2-ssh-key/cdk-keypair/private --query SecretString --output text > cdk-key.pem && chmod 400 cdk-key.pem",
+      "Value": "aws secretsmanager get-secret-value --secret-id ec2-ssh-key/StackIdentifier-keypair/private --query SecretString --output text > cdk-key.pem && chmod 400 cdk-key.pem",
     },
     "IPAddress": Object {
       "Value": Object {
@@ -693,7 +693,7 @@ Object {
   },
   "Outputs": Object {
     "DownloadKeyCommand": Object {
-      "Value": "aws secretsmanager get-secret-value --secret-id ec2-ssh-key/cdk-keypair/private --query SecretString --output text > cdk-key.pem && chmod 400 cdk-key.pem",
+      "Value": "aws secretsmanager get-secret-value --secret-id ec2-ssh-key/StackIdentifier-keypair/private --query SecretString --output text > cdk-key.pem && chmod 400 cdk-key.pem",
     },
     "IPAddress": Object {
       "Value": Object {
@@ -1301,7 +1301,7 @@ Object {
   },
   "Outputs": Object {
     "DownloadKeyCommand": Object {
-      "Value": "aws secretsmanager get-secret-value --secret-id ec2-ssh-key/cdk-keypair/private --query SecretString --output text > cdk-key.pem && chmod 400 cdk-key.pem",
+      "Value": "aws secretsmanager get-secret-value --secret-id ec2-ssh-key/StackIdentifier-keypair/private --query SecretString --output text > cdk-key.pem && chmod 400 cdk-key.pem",
     },
     "IPAddress": Object {
       "Value": Object {

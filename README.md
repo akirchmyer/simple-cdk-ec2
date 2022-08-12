@@ -31,6 +31,12 @@ cdk deploy  // deploy your CDK app
 cdk destroy // destroy your CDK app
 ````
 
+CDK will output the following:
+- The public IP of your new server
+- Instructions for downloading a private SSH key for your server
+- A handy command for connecting to your server via SSH once you have your key
+
+
 ## Configuration
 
 | Prop name   | Type        | Default Value | Description |
