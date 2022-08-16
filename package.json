@@ -1,6 +1,6 @@
 {
   "name": "simple-cdk-ec2",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Deploy a simple AWS EC2 instance with provided user data via CDK",
   "files": [
     "dist"
